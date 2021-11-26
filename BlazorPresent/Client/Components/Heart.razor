@@ -1,0 +1,14 @@
+﻿<span>I am the '@Name' so <button class="btn btn-danger py-0 px-1 d-inline-block" @onclick="EmitHeartbeatAsync">click here</button> to emit my heart beat</span>
+
+@code {
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnBeatsChanged { get; set; }
+
+    private async Task EmitHeartbeatAsync()
+    {
+        await OnBeatsChanged.InvokeAsync(new ChangeEventArgs { Value = Random.Shared.Next(50, 150) });
+    }
+}

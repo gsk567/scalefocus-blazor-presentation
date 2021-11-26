@@ -1,0 +1,16 @@
+﻿.glass {
+    margin-right: 10px;
+    width: 150px;
+    height: 200px;
+    border-radius: 0 0 20px 20px;
+    border: 3px solid #8ebfbf;
+    background: linear-gradient( 45deg, rgb(74 181 181 / 37%), transparent);
+    display: flex;
+    overflow: hidden;
+}
+
+    .glass > .glass-content {
+        margin-bottom: 0;
+        margin-top: auto;
+        width: 100%;
+    }

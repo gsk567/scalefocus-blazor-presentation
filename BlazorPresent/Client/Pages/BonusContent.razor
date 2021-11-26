@@ -1,0 +1,80 @@
+﻿@page "/bonus-content"
+@using BlazorPresent.Shared
+@using Microsoft.Extensions.Options
+@inject NavigationManager NavigationManager
+@inject ITransientIdProvider TransientIdProvider;
+@inject IScopedIdProvider ScopedIdProvider;
+@inject ISingletonIdProvider SingletonIdProvider;
+
+<PageTitle>Bonus Content</PageTitle>
+
+<h1>Bonus Content</h1>
+
+<Card Title="Routing Management">
+    <ul class="mb-0">
+        <li>NavigationManager.BaseUri: @NavigationManager.BaseUri</li>
+        <li>NavigationManager.Uri: @NavigationManager.Uri</li>
+        <li>NavigationManager.NavigateTo(..)</li>
+        <li>NavigationManager.ToAbsoluteUri(..)</li>
+        <li>NavigationManager.ToBaseRelativePath(..)</li>
+        <li>NavigationManager.GetUriWithQueryParameter(..)</li>
+        <li>NavigationManager.GetUriWithQueryParameters(..)</li>
+        <li>NavigationManager.LocationChanged +=</li>
+    </ul>
+</Card>
+
+<Card Title="State Management">
+    <ul class="mb-0">
+        <li>
+            <strong>Server-side storage</strong> (Blob storage, Key-value storage, Relational database, Table storage)
+        </li>
+        <li>
+            <strong>URL</strong>
+        </li>
+        <li>
+            <strong>Browser storage</strong> (localStorage <span class="badge bg-info">ProtectedLocalStorage</span>, sessionStorage <span class="badge bg-info">ProtectedSessionStorage</span>)
+        </li>
+        <li>
+            <strong>In-memory state container service</strong>
+        </li>
+    </ul>
+</Card>
+
+<Card Title="Services">
+    <ul class="mb-0">
+        <li>Id from the singleton service: <strong>@SingletonIdProvider.GetId()</strong></li>
+        <li>Id from the scoped service: <strong>@ScopedIdProvider.GetId()</strong></li>
+        <li>Id from the transient service: <strong>@TransientIdProvider.GetId()</strong></li>
+    </ul>
+</Card>
+
+<Card Title="Authentication and Authorization">
+    <pre class="mb-0">
+        <code>
+@@page "my-page-slug"
+@@attribute [Authorize]
+        </code>
+    </pre>
+
+    <pre class="mb-0">
+        <code>
+            @authComponents
+        </code>
+    </pre>
+</Card>
+
+@code {
+    private string authComponents = @"
+<AuthorizeView>
+    <Authorized>
+        <h1>Hello, @context.User.Identity.Name!</h1>
+        <p>You can only see this content if you're authorized.</p>
+        <button>Authorized Only Button</button>
+    </Authorized>
+    <NotAuthorized>
+        <h1>Authentication Failure!</h1>
+        <p>You're not signed in.</p>
+    </NotAuthorized>
+</AuthorizeView>
+";
+}

@@ -1,0 +1,52 @@
+﻿@page "/javascript"
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<PageTitle>JavaScript</PageTitle>
+
+<h1>JavaScript</h1>
+
+<Card Title="Let it snow">
+<div class="input-group">
+    <div class="input-group-prepend">
+        <span class="input-group-text">Snowflakes Count</span>
+    </div>
+    <input class="form-control" disabled="@isSnowInitialized" placeholder="Snowflakes count" @bind-value="snowflakeCount" />
+    <div class="input-group-append">
+        <button disabled="@isSnowInitialized" @onclick="LetItSnow" class="btn btn-primary">Let it snow</button>
+    </div>
+</div>
+</Card>
+
+
+
+@code {
+    private int snowflakeCount = 100;
+
+    private IJSObjectReference module;
+
+    private bool isSnowInitialized = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "./modules/PureSnow.js");
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+
+    private async Task LetItSnow()
+    {
+        await module.InvokeVoidAsync("letItSnow", this.snowflakeCount);
+        this.isSnowInitialized = true;
+    }
+}

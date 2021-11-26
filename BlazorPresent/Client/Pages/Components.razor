@@ -1,0 +1,63 @@
+﻿@page "/components"
+
+<PageTitle>Components</PageTitle>
+
+<h1>Components</h1>
+
+<Card Title="Parent-Child Communication">
+    <Human Name="Pesho"/>
+    <Human Name="Gosho"/>
+</Card>
+
+<Card Title="Bridge Design Pattern">
+    <div class="d-flex">
+        <Glass>
+            <h2 class="m-0 whiskey">Whiskey</h2>
+        </Glass>
+       <Glass>
+            <p class="m-0 coffee">Coffee</p>
+       </Glass>
+       <Glass>
+            <code class="code">javascript:void();</code>
+       </Glass>
+    </div>
+</Card>
+
+<Card Title="Inheritance">
+    <Dog Name="Spike"/>
+    <Cat Name="Garfield" />
+</Card>
+
+<Card Title="Dynamic Component">
+    <div class="mb-2">
+        I am Mancho and want to be 
+        <select class="form-control" @bind="@selectedAnimalType">
+           <option value="">Nothing</option>
+           @foreach (var animal in animalTypes)
+           {
+               <option value="@animal.FullName">@animal.Name</option>
+           }
+        </select>
+    </div>
+
+    @if (!string.IsNullOrEmpty(selectedAnimalType))
+    {
+        <DynamicComponent Type="@Type.GetType(selectedAnimalType)" Parameters="@componentParameters"></DynamicComponent>
+    }
+</Card>
+
+@code {
+    private List<Type> animalTypes = new List<Type>
+    {
+        typeof(Dog),
+        typeof(Cat)
+    };
+
+    private string selectedAnimalType = null;
+
+    private Dictionary<string, object> componentParameters = new ()
+    {
+        { "Name", "Mancho" }
+    };
+
+}

@@ -1,0 +1,8 @@
+﻿.human ::deep .card-title {
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+.human ::deep .card-header {
+    background: #000073;
+}

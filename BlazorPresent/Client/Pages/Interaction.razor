@@ -1,0 +1,61 @@
+﻿@page "/interaction"
+@using System.Linq
+@using BlazorPresent.Shared
+
+<PageTitle>Interaction</PageTitle>
+
+<h1>Interaction</h1>
+
+<Card Title="Events">
+    <p role="status">Current count: @currentCount</p>
+
+    <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+    <hr/>
+
+    <p>@string.Join(" ||| ", events)</p>
+
+    <input class="form-control" @onchange="HandleChange"/>
+</Card>
+
+<Card Title="Lifecycle">
+    <p>@BeautifiedForecast</p>
+
+    <button class="btn btn-dark" @onclick="StateHasChanged">Trigger <code>StateHasChanged</code></button>
+</Card>
+
+
+@code {
+    private int currentCount = 0;
+
+    private List<string> events = new List<string>();
+
+    private WeatherForecast forecast = new WeatherForecast();
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            forecast.Summary = "My initial value";
+        }
+        else
+        {
+            forecast.Summary = "My after render value";
+        }
+    }
+
+    private void IncrementCount()
+    {
+        Console.WriteLine("Increment");
+        currentCount++;
+        forecast.Summary = $"My value is {currentCount}";
+    }
+
+    private void HandleChange(ChangeEventArgs args)
+    {
+        events.Add($"Input changed: {args.Value}");
+    }
+
+    private string BeautifiedForecast => System.Text.Json.JsonSerializer.Serialize(this.forecast);
+}

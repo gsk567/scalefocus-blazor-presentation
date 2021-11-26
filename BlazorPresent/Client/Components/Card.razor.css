@@ -1,0 +1,10 @@
+﻿.card {
+    border-radius: 0;
+}
+
+.card-header {
+    background: #00013e;
+    border-radius: 0;
+    color: #fff;
+    font-weight: bold;
+}

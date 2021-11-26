@@ -1,0 +1,24 @@
+﻿<div class="human">
+    <Card Title="@Name">
+        <h5>I am '@Name' and my heart beating is @heartbeating</h5>
+        <blockquote>
+            A message from my heart: <Heart Name="@HeartName" OnBeatsChanged="HandleHeartbeat"/>
+        </blockquote>
+    </Card>
+</div>
+
+@code {
+    private string humanId = Guid.NewGuid().ToString();
+
+    private int heartbeating = 0;
+
+    [Parameter]
+    public string Name { get; set; }
+
+    private string HeartName => $"Heart - {this.humanId}";
+
+    private void HandleHeartbeat(ChangeEventArgs eventArgs)
+    {
+        this.heartbeating = (int)eventArgs.Value;
+    }
+}
